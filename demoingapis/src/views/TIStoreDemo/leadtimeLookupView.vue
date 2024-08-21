@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import Authenticate from '@/components/authenticateBanner.vue'
 import Instructions from '@/components/instructionsBanner.vue'
+import LeadtimeLookup from '@/components/customComponents/leadtimeLookup.vue'
 </script>
 
 
 <template>
     <div class="about">
       <Authenticate></Authenticate>
-      <Instructions name="LeadtimeLookup" fileLocation='/instructions.json' />
+      <Instructions name="LeadtimeLookup"/>
+      <LeadtimeLookup></LeadtimeLookup>
     </div>
 </template>
   
