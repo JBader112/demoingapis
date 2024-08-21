@@ -136,6 +136,10 @@ const manuItems = ref([
 </template>
 
 <style scoped>
+.main-port{
+  height: calc(100vh - 250px);
+}
+
  .logo {
   max-height: 100px;
   height: auto;

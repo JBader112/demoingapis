@@ -1,0 +1,15 @@
+{
+    "LeadtimeLookup": {
+      "header": "Leadtime Lookup Instructions",
+      "instruction": "Instructions for Leadtime Lookup"
+    },
+    "PartInformation": {
+      "header": "Part Information Header",
+      "instruction": "Instructions for Part Information"
+    },
+    "QuoteCreate": {
+      "header": "Quote Create Header",
+      "instruction": "Instructions for Quote Create"
+    }
+}
+  
