@@ -62,7 +62,7 @@ const manuItems = ref([
       {
           label: 'Part Information',
           icon: 'pi pi-search',
-          command: () => router.push('/about')
+          command: () => router.push('/partinformation')
       }
     ]
   },

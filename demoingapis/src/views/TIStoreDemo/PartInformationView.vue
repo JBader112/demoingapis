@@ -4,7 +4,7 @@ import axios from 'axios';
 import Authenticate from '@/components/authenticateBanner.vue';
 import Instructions from '@/components/instructionsBanner.vue';
 import LeadtimeLookup from '@/components/customComponents/leadtimeLookup.vue';
-import prettyView from '@/components/customComponents/prettyViewLeadtime.vue';
+import prettyView from '@/components/customComponents/prettyViewPartInfo.vue';
 import RequestPayload from '@/components/customComponents/requestPayload.vue';
 import ResponseData from '@/components/customComponents/responseData.vue';
 import { useTIAccessTokenStore } from '@/stores/TIAccessTokenStore';
