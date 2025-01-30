@@ -4,10 +4,10 @@ import axios from 'axios';
 import Authenticate from '@/components/authenticateBanner.vue';
 import Instructions from '@/components/instructionsBanner.vue';
 import QuoteCreate from '@/components/customComponents/quoteCreateTool.vue';
-import prettyView from '@/components/customComponents/prettyViewPartInfo.vue';
 import RequestPayload from '@/components/customComponents/requestPayload.vue';
+import quoteGet from '@/components/customComponents/quoteGet.vue';
 import ResponseData from '@/components/customComponents/responseData.vue';
-import prettyViewOrder from '@/components/customComponents/prettyViewOrder.vue';
+import prettyViewOrder from '@/components/customComponents/prettyViewQuote.vue';
 import { useTIAccessTokenStore } from '@/stores/TIAccessTokenStore';
 
 const store = useTIAccessTokenStore();
@@ -26,7 +26,7 @@ async function createBacklogOrder(orderData: any) {
   requestData.value = orderData; // Store request data for display
 
   try {
-    const apiResponse = await axios.post('https://transact-pre.ti.com/v2/backlog/orders/test', orderData, {
+    const apiResponse = await axios.post('https://transact-pre.ti.com/v2/backlog/quotes/test', orderData, {
       headers: requestHeaders.value,
     });
     
@@ -43,28 +43,53 @@ async function createBacklogOrder(orderData: any) {
   }
 }
 
+async function getQuote(queryParams: any) {
+  requestData.value = queryParams;
+
+  try {
+    const apiResponse = await axios.get('https://transact-pre.ti.com/v2/backlog/quotes/test', {
+      headers: requestHeaders.value,
+      params: queryParams
+    });
+    
+    requestData.value = JSON.stringify(queryParams);
+    response.value = [apiResponse.data];
+  } catch (error: any) {
+    console.error('Error getting quote:', error);
+    requestData.value = JSON.stringify(queryParams);
+    response.value = error.response ? [error.response.data] : [{ error: "Request failed", details: error.message }];
+  }
+}
+
 // Handles input from QuoteCreate
 const handleSubmit = (orderData: any) => {
     createBacklogOrder(orderData);
 };
+
+const handleGetQuote = (queryParams: any) => {
+    getQuote(queryParams);
+};
+
 </script>
 
 <template>
   <div class="about">
     <Authenticate />
     <Instructions name="QuoteCreate" />
+    <quoteGet @submit="handleGetQuote" />
     <QuoteCreate @submit="handleSubmit" />
     <prettyViewOrder :response="response" />
     <div class="flex">
       <RequestPayload 
         :input="requestData" 
-        apiUrl="https://transact-pre.ti.com/v2/backlog/orders/test"
+        apiUrl="https://transact-pre.ti.com/v2/backlog/quotes/test"
         :headers="requestHeaders"
       />
       <ResponseData :response="response" />
     </div>
   </div>
 </template>
+
 
 <style>
 .flex {

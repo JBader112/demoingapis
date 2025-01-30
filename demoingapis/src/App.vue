@@ -75,19 +75,14 @@ const manuItems = ref([
     label: 'TI Backlog Demos',
     items:[
       {
-          label: 'Quote Create API',
+          label: 'Order Create API',
+          icon: 'pi pi-search',
+          command: () => router.push('/orderCreate')
+      },
+      {
+          label: 'Quote Create & Retrieve API',
           icon: 'pi pi-search',
           command: () => router.push('/quoteCreate')
-      },
-      {
-          label: 'Quote Retrieve API',
-          icon: 'pi pi-search',
-          command: () => router.push('/about')
-      },
-      {
-          label: 'Order Create & Change API',
-          icon: 'pi pi-search',
-          command: () => router.push('/about')
       },
       {
           label: 'Order Retrieve',

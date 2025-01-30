@@ -34,12 +34,12 @@ const router = createRouter({
       component: () => import('../views/TIStoreDemo/PartInformationView.vue')
     },
     {
-      path: '/quoteCreate',
-      name: 'quoteCreate',
+      path: '/orderCreate',
+      name: 'orderCreate',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/TIStoreDemo/quoteCreateView.vue')
+      component: () => import('../views/TIStoreDemo/OrderCreateView.vue')
     },
     {
       path: '/leadtimeTracker',
@@ -48,6 +48,14 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/TIStoreDemo/leadtimeTracker.vue')
+    },
+    {
+      path: '/quoteCreate',
+      name: 'quoteCreate',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/TIStoreDemo/QuoteCreateGetView.vue')
     }
   ]
 })
