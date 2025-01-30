@@ -63,6 +63,11 @@ const manuItems = ref([
           label: 'Part Information',
           icon: 'pi pi-search',
           command: () => router.push('/partinformation')
+      },
+      {
+          label: 'Leadtime Tracker',
+          icon: 'pi pi-search',
+          command: () => router.push('/leadtimeTracker')
       }
     ]
   },
@@ -72,7 +77,7 @@ const manuItems = ref([
       {
           label: 'Quote Create API',
           icon: 'pi pi-search',
-          command: () => router.push('/about')
+          command: () => router.push('/quoteCreate')
       },
       {
           label: 'Quote Retrieve API',
