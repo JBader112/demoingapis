@@ -7,6 +7,7 @@ import QuoteCreate from '@/components/customComponents/quoteCreateTool.vue';
 import prettyView from '@/components/customComponents/prettyViewPartInfo.vue';
 import RequestPayload from '@/components/customComponents/requestPayload.vue';
 import ResponseData from '@/components/customComponents/responseData.vue';
+import prettyViewOrder from '@/components/customComponents/prettyViewOrder.vue';
 import { useTIAccessTokenStore } from '@/stores/TIAccessTokenStore';
 
 const store = useTIAccessTokenStore();
@@ -17,17 +18,29 @@ const requestHeaders = computed(() => ({
   Authorization: `Bearer ${store.accessToken}`
 }));
 
+
+
+
 // Create backlog order based on input data
 async function createBacklogOrder(orderData: any) {
-    try {
-        requestData.value = orderData; // Store request data for display
-        const apiResponse = await axios.post('https://transact.ti.com/v2/backlog/orders/test', orderData, {
-            headers: requestHeaders.value,
-        });
-        response.value = apiResponse.data;
-    } catch (error) {
-        console.error('Error creating backlog order:', error);
-    }
+  requestData.value = orderData; // Store request data for display
+
+  try {
+    const apiResponse = await axios.post('https://transact-pre.ti.com/v2/backlog/orders/test', orderData, {
+      headers: requestHeaders.value,
+    });
+    
+    requestData.value = orderData.partNumbers?.join('\n') || JSON.stringify(orderData); // Ensure safe access
+    response.value = [apiResponse.data];
+  } catch (error: any) {
+    console.error('Error creating backlog order:', error);
+
+    // Preserve requestData even in error scenarios
+    requestData.value = orderData.partNumbers ? orderData.partNumbers.join('\n') : orderData;
+
+    // Capture error response if available
+    response.value = error.response ? [error.response.data] : [{ error: "Request failed", details: error.message }];
+  }
 }
 
 // Handles input from QuoteCreate
@@ -41,11 +54,11 @@ const handleSubmit = (orderData: any) => {
     <Authenticate />
     <Instructions name="QuoteCreate" />
     <QuoteCreate @submit="handleSubmit" />
-    <prettyView :response="response" />
+    <prettyViewOrder :response="response" />
     <div class="flex">
       <RequestPayload 
         :input="requestData" 
-        apiUrl="https://transact.ti.com/v2/backlog/orders/test"
+        apiUrl="https://transact-pre.ti.com/v2/backlog/orders/test"
         :headers="requestHeaders"
       />
       <ResponseData :response="response" />

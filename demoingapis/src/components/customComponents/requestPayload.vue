@@ -37,9 +37,15 @@ const props = defineProps<{
 // Format input as JSON only if it exists
 const formattedInput = computed(() => {
   if (!props.input) return null;
-  return JSON.stringify({ 
-    partNumbers: props.input.split(/[\n,]+/).map(s => s.trim()) 
-  }, null, 2);
+
+  try {
+    // If it's already a valid JSON object, parse it and return formatted JSON
+    const parsedInput = typeof props.input === 'string' ? JSON.parse(props.input) : props.input;
+    return JSON.stringify(parsedInput, null, 2);
+  } catch (error) {
+    console.error("Error parsing input JSON:", error);
+    return "Invalid JSON format";
+  }
 });
 
 // Format headers as JSON

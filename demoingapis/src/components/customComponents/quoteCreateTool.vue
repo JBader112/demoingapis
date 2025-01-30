@@ -5,6 +5,7 @@ import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Calendar from 'primevue/calendar';
+import Panel from 'primevue/panel';
 
 const emit = defineEmits(['submit']);
 
@@ -83,7 +84,6 @@ const isValid = computed(() => {
          lineItems.value.every(item => 
            item.tiPartNumber &&
            item.customerAnticipatedUnitPrice > 0 &&
-           item.quoteNumber &&
            item.schedules.every(schedule => 
              schedule.requestedQuantity > 0 &&
              schedule.requestedDeliveryDate
@@ -93,7 +93,7 @@ const isValid = computed(() => {
 </script>
 
 <template>
-  <div class="card">
+  <Panel toggleable :collapsed="false" :style="{ width: 'calc(100vw - 300px)' }">
     <div class="p-fluid grid">
       <div class="field col-12 md:col-6">
         <label for="poNumber">Purchase Order Number</label>
@@ -123,11 +123,6 @@ const isValid = computed(() => {
       <Column field="customerAnticipatedUnitPrice" header="Unit Price" :editor="true">
         <template #editor="{ data, field }">
           <InputText v-model="data[field]" type="number" />
-        </template>
-      </Column>
-      <Column field="quoteNumber" header="Quote Number" :editor="true">
-        <template #editor="{ data, field }">
-          <InputText v-model="data[field]" />
         </template>
       </Column>
       <Column field="schedules[0].requestedQuantity" header="Quantity" :editor="true">
@@ -163,7 +158,7 @@ const isValid = computed(() => {
         severity="success"
       />
     </div>
-  </div>
+  </Panel>
 </template>
 
 <style scoped>
