@@ -64,15 +64,13 @@ const removeLineItem = (index: number) => {
 };
 
 // Handle cell edit completion
-const onCellEditComplete = (event: {
-  data: LineItem;
-  newValue: any;
-  field: keyof LineItem;
-}) => {
+import type { DataTableCellEditCompleteEvent } from 'primevue/datatable';
+
+const onCellEditComplete = (event: DataTableCellEditCompleteEvent) => {
   const { data, newValue, field } = event;
-  const index = quoteRequest.value.lineItems.findIndex(item => item === data);
-  if (index !== -1) {
-    (quoteRequest.value.lineItems[index] as any)[field] = newValue;
+  
+  if (typeof field === 'string' && field in data) {
+    (data as any)[field] = newValue;
   }
 };
 

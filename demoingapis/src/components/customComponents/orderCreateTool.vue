@@ -58,22 +58,25 @@ const formatDate = (date: string | Date) => {
   return d.toISOString().split('T')[0];
 };
 
-const onScheduleCellEditComplete = (event: {
-  data: Schedule;
-  newValue: any;
-  field: keyof Schedule;
-}, lineItemIndex: number) => {
+import type { DataTableCellEditCompleteEvent } from 'primevue/datatable';
+
+const onScheduleCellEditComplete = (event: DataTableCellEditCompleteEvent, lineItemIndex: number) => {
   const { data, newValue, field } = event;
-  const scheduleIndex = lineItems.value[lineItemIndex].schedules.findIndex(schedule => schedule === data);
-  if (scheduleIndex !== -1) {
-    if (field === 'requestedDeliveryDate' && newValue) {
-      // Format the date before storing
-      lineItems.value[lineItemIndex].schedules[scheduleIndex][field] = formatDate(newValue);
-    } else {
-      (lineItems.value[lineItemIndex].schedules[scheduleIndex][field] as any) = newValue;
+
+  // Ensure 'field' is a valid key of Schedule
+  if (typeof field === 'string' && (field === 'requestedQuantity' || field === 'requestedDeliveryDate')) {
+    const scheduleIndex = lineItems.value[lineItemIndex].schedules.findIndex(schedule => schedule === data);
+    if (scheduleIndex !== -1) {
+      if (field === 'requestedDeliveryDate' && newValue) {
+        // Format the date before storing
+        lineItems.value[lineItemIndex].schedules[scheduleIndex][field] = formatDate(newValue);
+      } else {
+        (lineItems.value[lineItemIndex].schedules[scheduleIndex] as any)[field] = newValue;
+      }
     }
   }
 };
+
 
 // Remove entire line item
 const removeLineItem = (index: number) => {
@@ -97,19 +100,13 @@ const removeSchedule = (lineItemIndex: number, scheduleIndex: number) => {
   lineItems.value[lineItemIndex].schedules.splice(scheduleIndex, 1);
 };
 
-// Handle cell edit completion for line items
-const onCellEditComplete = (event: {
-  data: LineItem;
-  newValue: any;
-  field: keyof LineItem;
-}) => {
+const onCellEditComplete = (event: DataTableCellEditCompleteEvent) => {
   const { data, newValue, field } = event;
-  const index = lineItems.value.findIndex(item => item === data);
-  if (index !== -1) {
-    (lineItems.value[index] as any)[field] = newValue;
+  
+  if (typeof field === 'string' && field in data) {
+    (data as any)[field] = newValue;
   }
 };
-
 // If you want to do cell editing for schedules as well,
 // you can create a similar function, e.g. onScheduleCellEditComplete.
 
